@@ -13,7 +13,8 @@ HEADERS = {
 }
 
 IMAGES = [
-    #link to images. the more, the better
+    #link to images.
+    #The more, the better
 ]
 
 #-----------------------------CREATING A MODEL USING TRYLEAP.AI----------------------------------------#
@@ -106,7 +107,7 @@ def generate_image(model_id, prompt):
 
     return inference_id, status
 
-#----------------------------????---------------------------------------#
+#----------------------------OBTAIN THE IMAGE---------------------------------------#
 
 def get_inference_job(model_id, inference_id):
     url = f"https://api.tryleap.ai/api/v1/images/models/{model_id}/inferences/{inference_id}"
@@ -124,6 +125,21 @@ def get_inference_job(model_id, inference_id):
     print(f"Inference ID: {inference_id}. State: {state}")
 
     return inference_id, state, image
+
+#---------------------------SAVING THE IMAGE LOCALLY----------------------------------------#
+
+def save_image(inference_id, file_path):
+    url = f"https://api.tryleap.ai/api/v1/images/inferences/{inference_id}/download"
+
+    response = requests.get(url, stream=True, headers=HEADERS)
+
+    with open(file_path, "wb") as f:
+        for chunk in response.iter_content(chunk_size=1024):
+            if chunk:
+                f.write(chunk)
+
+    print(f"Image saved to {file_path}")
+
 
 #------------------------------CREATE, UPLOAD AND TRAIN-------------------------------------#
 
@@ -147,3 +163,6 @@ while status != "finished":
     inference_id, status, image = get_inference_job(model_id, inference_id)
 
 print(image)
+
+file_path = r"C:\Users\hp\Desktop\bot\image.jpg" #r allows to skip escape character for the \
+save_image(inference_id, file_path)
