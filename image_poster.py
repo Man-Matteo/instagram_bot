@@ -8,7 +8,7 @@ import json
 
 
 
-# uload photo
+# upload photo
 file_path = r"C:\Users\hp\Desktop\bot\image.jpg"
 url = f"https://graph.instagram.com/{user-id}/media"
 params = {"access_token": "your-access-token"}
