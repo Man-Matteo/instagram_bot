@@ -1,31 +1,40 @@
 import requests
 import json
-
+from flask import Flask, request
 #obtaining access token
-# Step 1: Authentication
-client_id = 'YOUR CLIENT ID'
-redirect_uri = 'YOUR CALLBACK URL'
-auth_url = f'https://api.instagram.com/oauth/authorize/?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code'
-print(f'Visit this URL and authorize your application: {auth_url}')
 
-# Step 2: Redirection
-code = input('Insert temporary authorization code: ')
+app = Flask(__name__)
+@app.route('/instagram/callback/')
+def handle_callback():
+    # Step 1: Authentication
+    client_id = 'YOUR CLIENT ID'
+    redirect_uri = 'YOUR CALLBACK URL'
+    auth_url = f'https://api.instagram.com/oauth/authorize/?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code'
+    print(f'Visit this URL and authorize your application: {auth_url}')
 
-# Step 3: Token exchange
-client_secret = 'YOUR CLIENT SECRET KEY'
-access_token_url = 'https://api.instagram.com/oauth/access_token'
-payload = {
-    'client_id': client_id,
-    'client_secret': client_secret,
-    'grant_type': 'authorization_code',
-    'redirect_uri': redirect_uri,
-    'code': code
-}
-response = requests.post(access_token_url, data=payload)
+    # Step 2: Redirection
+    code = input('Insert temporary authorization code: ')
 
-# Step 4: Obtaining access token
-access_token = response.json()['access_token']
-print(f'Valid access token: {access_token}')
+    # Step 3: Token exchange
+    client_secret = 'YOUR CLIENT SECRET KEY'
+    access_token_url = 'https://api.instagram.com/oauth/access_token'
+    payload = {
+        'client_id': client_id,
+        'client_secret': client_secret,
+        'grant_type': 'authorization_code',
+        'redirect_uri': redirect_uri,
+        'code': code
+    }
+    response = requests.post(access_token_url, data=payload)
+
+    # Step 4: Obtaining access token
+    access_token = response.json()['access_token']
+    print(f'Valid access token: {access_token}')
+    
+    return 'Authorization success!'
+
+if __name__ == '__main__':
+app.run(port=8000)
 
 # user-id
 username = "matteomannai3"
