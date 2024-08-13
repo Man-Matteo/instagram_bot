@@ -1,5 +1,5 @@
 # instagram_bot
-Simple project using tryleap.ai and Facebook Graph API to run an Instagram Buisness Account automatically, 
+Simple project using tryleap.ai and Facebook Graph API to run an Instagram Business Account automatically, 
 generating images on-demand based on a base model and a description provided by the user.
 
 The image generation is done by tryleap ai, provided a model and a description you'll obtain an image.
